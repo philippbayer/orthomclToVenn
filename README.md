@@ -1,10 +1,10 @@
 # orthomclToVenn
 
-I could not find a script that takes the output from OrthoMCL, gives you the number of genes in shared clusters between groups, includes the number of genes that are not in clusters, and then makes a Venn diagram, so I made one. I first used https://github.com/apetkau/orthomcl-pipeline but that one prints shared clusters only and does not care about singletons not in any clusters.
+I could not find a script that takes the output from OrthoMCL, gives you the number of genes in shared clusters between groups, includes the number of genes that are not in clusters, and then makes a Venn diagram, so I made one. I first used https://github.com/apetkau/orthomcl-pipeline but that one prints shared clusters only and does not care about singletons that are not contained in any clusters.
 
-WARNING: Currently this script is extremely untested, and can only make Venn diagrams for 2 or 3 groups. However, it gives you the number of shared genes and clusters so you can plug those into other software which can do 4,5,6, etc. group Venn diagrams.
+WARNING: Currently this script is extremely untested, and can only make Venn diagrams for 2 or 3 groups. It will however still give you the number of shared genes and shared groups for 1-infinity families, so you can plug those numbers into whatever software you use to draw Venn diagrams.
+
 Currently, the Venn diagram contains only the shared genes, not the shared clusters (this is an easy fix though).
-
 
 Weighted Venn diagram:
 
@@ -38,7 +38,7 @@ This file does not necessarily need to include all species contained in groups.t
 ## Running it
 
 ```
->python2.7 OrthomclToVenn.py -h
+python2.7 OrthomclToVenn.py -h
 usage: OrthomclToVenn.py [-h] groups singletons families figure table
 
 Parses orthomcl groups.txt and singletons, plots a Venn diagram of the number
@@ -59,7 +59,8 @@ positional arguments:
 
 So for example:
 
-    python2.7 OrthomclToVenn.py groups.txt singletons.txt dalbergiods_millettoids_galegoids.txt figure.png dalbergiods_millettoids_galegoids_table.csv
+    python2.7 OrthomclToVenn.py groups.txt singletons.txt \
+        dalbergiods_millettoids_galegoids.txt figure.png dalbergiods_millettoids_galegoids_table.csv
 
 It should then print something like:
 
