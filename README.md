@@ -5,6 +5,10 @@ I could not find a script that takes the output from OrthoMCL, gives you the num
 WARNING: Currently this script is extremely untested, and can only make Venn diagrams for 2 or 3 groups. However, it gives you the number of shared genes and clusters so you can plug those into other software which can do 4,5,6, etc. group Venn diagrams.
 Currently, the Venn diagram contains only the shared genes, not the shared clusters (this is an easy fix though).
 
+![Weighted Venn](figure_weighted.png)
+
+![Unweighted Venn](figure_unweighted.png)
+
 # Requirements
 
 - python2.7, at least
