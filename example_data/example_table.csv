@@ -1,0 +1,4 @@
+Group	Genes overlap	Clusters overlap
+group2	0	0
+group1:group2	5	1
+group1	10	2

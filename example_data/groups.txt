@@ -1,0 +1,3 @@
+cluster1: a|gene_4 b|gene_5 c|gene_6
+cluster2: b|gene_7 e|gene_8 f|gene_8 a|gene_10 c|gene_100
+cluster3: b|gene_9 b|gene_10 b|gene_11

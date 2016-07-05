@@ -35,6 +35,8 @@ Dalbergoids: Ari,Ard
 
 This file does not necessarily need to include all species contained in groups.txt.
 
+There is a tiny example input dataset in the `example_data` folder, compare with that one if you, for example, want to use clusters that are not from OrthoMCL.
+
 ## Running it
 
 ```
@@ -91,4 +93,4 @@ It collects the species that occur in each of the groups reported by OrthoMCL. I
 
 - Currently, `matplotlib_venn` only supports venn2 and venn3, no venn4,5,6,7... It also does not support the famous Banana Venn.
 - add tests :(
-- add test data
+- ~~add test data~~

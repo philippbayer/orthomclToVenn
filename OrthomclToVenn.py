@@ -63,7 +63,7 @@ if __name__ == "__main__":
         combo = tuple(sorted(set(combo)))
         counter_dict[combo] = [0, 0]
 
-    logger.info("Parsing groups.txt.")
+    logger.info("Parsing OrthoMCL output in '%s'."%args.groups)
 
     with open(args.groups) as f:
         for line in f:
@@ -97,6 +97,7 @@ if __name__ == "__main__":
             counter_dict[present_groups][1] += 1
 
     # now parse the singletons and add them to the single group clusters
+    logger.info("Parsing singletons in '%s'"%(args.singletons))
     with open(args.singletons) as f:
         for line in f:
             gene = line.split("|")
@@ -113,7 +114,7 @@ if __name__ == "__main__":
             # it's just one gene
             counter_dict[ (relevant_group, ) ][0] += 1
 
-    logger.info("Writing cluster numbers to %s"%(args.table))
+    logger.info("Writing cluster numbers to '%s'."%(args.table))
     logger.info("Also printing cluster numbers here:")
     logger.info("Group\tGenes overlap\tClusters overlap")
     with open(args.table, "w") as out:
