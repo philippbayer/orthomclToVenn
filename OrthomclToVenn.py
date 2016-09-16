@@ -53,6 +53,8 @@ if __name__ == "__main__":
     # need a data structure to count the number of overlapping genes/clusters
     counter_dict = {} # key: (group1, group2, ...., groupN), value: (number of overlapping genes, number of overlapping clusters)
 
+    overlap_dict = {} # same key, value: list of shared genes
+
     all_possible_combinations = list(itertools.product(species_dict.keys(),repeat=groups_counter))
     # [('Milletoids', 'Milletoids', 'Milletoids'), ('Milletoids', 'Milletoids', 'Dalbergiods'), ('Milletoids', 'Milletoids', 'Galegoids'),]
     # take that and make it a) so that each combinaion has only unique members
@@ -62,8 +64,9 @@ if __name__ == "__main__":
     for combo in all_possible_combinations:
         combo = tuple(sorted(set(combo)))
         counter_dict[combo] = [0, 0]
+        overlap_dict[combo] = set()
 
-    logger.info("Parsing OrthoMCL output in '%s'."%args.groups)
+    logger.info("Parsing groups.txt.")
 
     with open(args.groups) as f:
         for line in f:
@@ -73,8 +76,10 @@ if __name__ == "__main__":
             # which species are present?
             species_in_cluster = set()
             number_of_genes_in_cluster = 0
+            genes_in_cluster = set()
 
             for g in genes:
+                genes_in_cluster.add(g)
                 g = g.split("|")
                 species = g[0]
                 species_in_cluster.add(species)
@@ -90,17 +95,19 @@ if __name__ == "__main__":
 
             if not present_groups:
                 # this happens when our families file does not have all groups that are present in groups.txt
-                # and when all genes in the cluster of this line are from the "missing" family (families)
+                # and when all genes in the cluster of this line are from the "missing" family
                 continue
 
             counter_dict[present_groups][0] += number_of_genes_in_cluster
             counter_dict[present_groups][1] += 1
 
+            for g in genes_in_cluster:
+                overlap_dict[present_groups].add(g)
+
     # now parse the singletons and add them to the single group clusters
-    logger.info("Parsing singletons in '%s'"%(args.singletons))
     with open(args.singletons) as f:
         for line in f:
-            gene = line.split("|")
+            gene = line.rstrip().split("|")
             # get the species the gene belongs to
             species = gene[0]
 
@@ -112,9 +119,11 @@ if __name__ == "__main__":
                 continue
 
             # it's just one gene
+            overlap_dict[ (relevant_group, ) ].add('|'.join(gene))
             counter_dict[ (relevant_group, ) ][0] += 1
 
-    logger.info("Writing cluster numbers to '%s'."%(args.table))
+    logger.info("Writing cluster numbers to %s"%(args.table))
+    logger.info("Writing cluster members to files ending in 'shared_gene_names.txt'")
     logger.info("Also printing cluster numbers here:")
     logger.info("Group\tGenes overlap\tClusters overlap")
     with open(args.table, "w") as out:
@@ -125,6 +134,9 @@ if __name__ == "__main__":
             shared_clusters = counter_dict[c][1]
             logger.info("%s\t%s\t%s"%(name, shared_genes, shared_clusters))
             out.write("%s\t%s\t%s\n"%(name, shared_genes, shared_clusters))
+            this_out = open('_'.join(list(c)) + '_shared_gene_names.txt', 'w')
+            for g in overlap_dict[c]:
+                this_out.write('%s\n'%g)
 
     # now make the Venn diagram
     labels = []
