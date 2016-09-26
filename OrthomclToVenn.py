@@ -79,9 +79,11 @@ if __name__ == "__main__":
             genes_in_cluster = set()
 
             for g in genes:
+                species = g.split("|")[0]
+                if species not in species_to_group_dict:
+                    # Do not count species we don't have in input file
+                    continue
                 genes_in_cluster.add(g)
-                g = g.split("|")
-                species = g[0]
                 species_in_cluster.add(species)
                 number_of_genes_in_cluster += 1
 
@@ -134,7 +136,7 @@ if __name__ == "__main__":
             shared_clusters = counter_dict[c][1]
             logger.info("%s\t%s\t%s"%(name, shared_genes, shared_clusters))
             out.write("%s\t%s\t%s\n"%(name, shared_genes, shared_clusters))
-            this_out = open('_'.join(list(c)) + '_shared_gene_names.txt', 'w')
+            this_out = open('.'.join(args.table.split('.')[:-1]) + '_'.join(list(c)) + '_shared_gene_names.txt', 'w')
             for g in overlap_dict[c]:
                 this_out.write('%s\n'%g)
 
