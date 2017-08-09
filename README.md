@@ -1,5 +1,9 @@
 # orthomclToVenn
 
+
+[![DOI](https://zenodo.org/badge/62373018.svg)](https://zenodo.org/badge/latestdoi/62373018)
+
+
 I could not find a script that takes the output from OrthoMCL, gives you the number of genes in shared clusters between groups, includes the number of genes that are not in clusters, and then makes a Venn diagram, so I made one. I first used https://github.com/apetkau/orthomcl-pipeline but that one prints shared clusters only and does not care about singletons that are not contained in any clusters.
 
 WARNING: Currently this script is extremely untested, and can only make Venn diagrams for 2 or 3 groups. It will however still give you the number of shared genes and shared groups for 1-infinity families, so you can plug those numbers into whatever software you use to draw Venn diagrams.
